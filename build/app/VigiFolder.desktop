@@ -1,6 +1,6 @@
 [Desktop Entry]
 Name=VigiFolder
-Exec=VigiFolder
+Exec=vigifolder
 Type=Application
 Icon=logo
 Categories=Utility;

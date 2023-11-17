@@ -9,7 +9,7 @@ https://github.com/felix068/VigiFolder-Linux/releases/download/1.0/VigiFolder-x8
 
 - Display in different colors, button to clear all logs
 - Option to include or exclude subfolders
-- Possibility to export in RTF
+- Possibility to export in TXT
 - Simple & Easy Setup
 - Fast Speeds
 - User Friendly Interface

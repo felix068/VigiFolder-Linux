@@ -14,4 +14,4 @@ A lightweight software that monitors most (all?) changes made to files in a fold
 - User Friendly Interface
 
 ## Screenshot
-![VigiFolder]()
+![VigiFolder](https://github.com/felix068/VigiFolder-Linux/blob/main/screenshot/screenshot1.png)

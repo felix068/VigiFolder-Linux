@@ -2,7 +2,8 @@
 
 A lightweight software that monitors most (all?) changes made to files in a folder (creation, deletion, renaming, modification).
 
-### Download link : 
+### Download link (.AppImage): 
+https://github.com/felix068/VigiFolder-Linux/releases/download/1.0/VigiFolder-x86_64.AppImage
 
 ## Features
 

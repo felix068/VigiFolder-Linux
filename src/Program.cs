@@ -32,7 +32,7 @@ namespace VigiFolder
             SetPosition(WindowPosition.Center);
             DeleteEvent += (o, args) => { Application.Quit(); };
 
-            lblFolderPath = new Label("Nom du dossier à surveiller :");
+            lblFolderPath = new Label("Folder path :");
             lblFolderPath.Xalign = 0.005f;
 
             txtFolderPath = new Entry();
@@ -45,19 +45,19 @@ namespace VigiFolder
             ScrolledWindow scrolledWindow = new ScrolledWindow();
             scrolledWindow.Add(rtbLogs);
 
-            btnStartStop = new Button("Lancer l'analyse");
+            btnStartStop = new Button("Start analysis");
             btnStartStop.Clicked += BtnStartStop_Clicked;
 
-            btnClear = new Button("Effacer le texte");
+            btnClear = new Button("Clear logs");
             btnClear.Clicked += BtnClear_Clicked;
 
-            btnExport = new Button("Exporter");
+            btnExport = new Button("Export");
             btnExport.Clicked += BtnExport_Clicked;
 
             btnSelectFolder = new Button("...");
             btnSelectFolder.Clicked += BtnSelectFolder_Clicked;
 
-            chkIncludeSubfolders = new CheckButton("Inclure les sous dossiers");
+            chkIncludeSubfolders = new CheckButton("Include subfolders");
             chkIncludeSubfolders.Active = true;
 
             VBox mainVBox = new VBox(false, 5);
@@ -103,13 +103,13 @@ namespace VigiFolder
         private FileSystemWatcher watcher;
         private void BtnStartStop_Clicked(object sender, EventArgs e)
         {
-            if (btnStartStop.Label == "Lancer l'analyse")
+            if (btnStartStop.Label == "Start analysis")
             {
                 if (txtFolderPath.Text == "")
                 {
                     MessageDialog md = new MessageDialog(this,
                         DialogFlags.DestroyWithParent, MessageType.Info,
-                        ButtonsType.Close, "Le chemin spécifié est vide");
+                        ButtonsType.Close, "Empty path");
                     md.Run();
                     md.Destroy();
                     return;
@@ -131,24 +131,24 @@ namespace VigiFolder
                         watcher.EnableRaisingEvents = true;
 
                         chkIncludeSubfolders.Sensitive = false;
-                        btnStartStop.Label = "Arrêter l'analyse";
+                        btnStartStop.Label = "Stop analysis";
 
                 }
                 catch (Exception ex)
                 {
                     MessageDialog md = new MessageDialog(this,
                         DialogFlags.DestroyWithParent, MessageType.Info,
-                        ButtonsType.Close, "Le chemin spécifié est invalide");
+                        ButtonsType.Close, "The specified path is invalid");
                     md.Run();
                     md.Destroy();
                 }
             }
-            else if (btnStartStop.Label == "Arrêter l'analyse")
+            else if (btnStartStop.Label == "Stop analysis")
             {
                 watcher.EnableRaisingEvents = false;
                 watcher.Dispose();
                 chkIncludeSubfolders.Sensitive = true;
-                btnStartStop.Label = "Lancer l'analyse";
+                btnStartStop.Label = "Start analysis";
             }
         }
 
@@ -183,7 +183,7 @@ namespace VigiFolder
             {
                 MessageDialog md = new MessageDialog(this,
                     DialogFlags.DestroyWithParent, MessageType.Info,
-                    ButtonsType.Close, "Veuillez attendre que des données soient présentes avant de pouvoir les exporter");
+                    ButtonsType.Close, "Please wait for data to be available before exporting them");
                 md.Run();
                 md.Destroy();
             }
@@ -192,11 +192,11 @@ namespace VigiFolder
         private void BtnSelectFolder_Clicked(object sender, EventArgs e)
         {
             FileChooserDialog dialog = new FileChooserDialog(
-                "Choisissez un dossier",
+                "Choose the folder to watch",
                 this,
                 FileChooserAction.SelectFolder,
-                "Annuler", ResponseType.Cancel,
-                "Sélectionner", ResponseType.Accept);
+                "Cancel", ResponseType.Cancel,
+                "Select", ResponseType.Accept);
             
             dialog.SelectMultiple = false;
             dialog.Filter = new FileFilter();
@@ -218,13 +218,13 @@ namespace VigiFolder
         private void OnCreated(object source, FileSystemEventArgs e)
         {
             TextIter iter = rtbLogs.Buffer.EndIter;
-            rtbLogs.Buffer.InsertWithTagsByName(ref iter, $"Fichier créé à : {DateTime.Now.ToString("HH:mm:ss")} :\nChemin d'accès : {e.FullPath}\n\n", "created");
+            rtbLogs.Buffer.InsertWithTagsByName(ref iter, $"File created at : {DateTime.Now.ToString("HH:mm:ss")} :\nFile path : {e.FullPath}\n\n", "created");
         }
 
         private void OnRenamed(object source, RenamedEventArgs e)
         {
             TextIter iter = rtbLogs.Buffer.EndIter;
-            rtbLogs.Buffer.InsertWithTagsByName(ref iter, $"Fichier renommé à : {DateTime.Now.ToString("HH:mm:ss")} :\nChemin d'accès : {e.FullPath}\n{e.OldName} => {e.Name}\n\n", "renamed");
+            rtbLogs.Buffer.InsertWithTagsByName(ref iter, $"File renamed at : {DateTime.Now.ToString("HH:mm:ss")} :\nFile path : {e.FullPath}\n{e.OldName} => {e.Name}\n\n", "renamed");
         }
 
         private DateTime lastRead = DateTime.MinValue;
@@ -237,14 +237,14 @@ namespace VigiFolder
                 lastRead = lastWriteTime;
 
                 TextIter iter = rtbLogs.Buffer.EndIter;
-                rtbLogs.Buffer.InsertWithTagsByName(ref iter, $"Fichier modifié à : {DateTime.Now.ToString("HH:mm:ss")} :\nChemin d'accès : {e.FullPath}\n\n", "changed");
+                rtbLogs.Buffer.InsertWithTagsByName(ref iter, $"File changed at : {DateTime.Now.ToString("HH:mm:ss")} :\nFile path : {e.FullPath}\n\n", "changed");
             }
         }
 
         private void OnDeleted(object source, FileSystemEventArgs e)
         {
             TextIter iter = rtbLogs.Buffer.EndIter;
-            rtbLogs.Buffer.InsertWithTagsByName(ref iter, $"Fichier supprimé à : {DateTime.Now.ToString("HH:mm:ss")} :\nChemin d'accès : {e.FullPath}\n\n", "deleted");
+            rtbLogs.Buffer.InsertWithTagsByName(ref iter, $"File deleted at : {DateTime.Now.ToString("HH:mm:ss")} :\nFile path : {e.FullPath}\n\n", "deleted");
         }
         
     }
